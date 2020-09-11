@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Context } from 'store'
+import { Context } from 'context/store'
 
 const Index = () => {
   const context = useContext(Context);

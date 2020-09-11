@@ -1,8 +1,9 @@
 import '../styles/globals.css'
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
 import Head from 'next/head'
-import { Provider } from 'store'
+import { Provider } from 'context/store'
 import ResponsiveDrawer from 'components/navbar'
+import { SnackbarProvider } from 'notistack';
 
 const theme = responsiveFontSizes(createMuiTheme())
 
@@ -17,15 +18,17 @@ function MyApp({ Component, pageProps }) {
         />
         <meta name="theme-color" content={theme.palette.primary.main} />
 
-        <title>{process.env.appName}</title>
-        <meta name="description" content={process.env.appDescription}></meta>
+        <title>{process.env.APP_NAME}</title>
+        <meta name="description" content={process.env.APP_DESCRIPTION}></meta>
         <meta name="robots" content="index, follow" />
-        
+
       </Head>
       <Provider>
-        <ResponsiveDrawer>
-          <Component {...pageProps} />
-        </ResponsiveDrawer>
+        <SnackbarProvider maxSnack={3}>
+          <ResponsiveDrawer>
+            <Component {...pageProps} />
+          </ResponsiveDrawer>
+        </SnackbarProvider>
       </Provider>
     </>
   )

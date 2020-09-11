@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AppBar, CssBaseline, Divider, Drawer, Hidden, IconButton, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography } from '@material-ui/core'
-import { MoveToInbox as InboxIcon, Mail as MailIcon, Menu as MenuIcon } from '@material-ui/icons';
+import { MoveToInbox as InboxIcon, Mail as MailIcon, Menu as MenuIcon, WhatshotTwoTone as WhatshotTwoToneIcon, ScheduleTwoTone as ScheduleTwoToneIcon, InsertChartTwoTone as InsertChartTwoToneIcon } from '@material-ui/icons';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Context } from 'store'
+import { Context } from 'context/store'
 import Link from 'next/link'
 import SimpleMenu from 'components/selectMode'
 const drawerWidth = 240;
@@ -49,34 +49,42 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
   const context = React.useContext(Context);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    context.dispatch('TOGGLE_NAVBAR')
   };
 
   const drawer = (
     <div>
 
       <Toolbar>
-        <Link href="/">
-          <Typography variant="h6" noWrap>
-            {process.env.appName}
-          </Typography>
-        </Link>
-
+        <Typography variant="h6" noWrap>
+          {process.env.APP_NAME}
+        </Typography>
       </Toolbar>
 
       <Divider />
 
       <List>
-        {['Trending', 'Schedulle', 'Top', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+        <Link href="/" >
+          <ListItem button key="Trending" onClick={() => context.dispatch('CLOSE_NAVBAR')}>
+            <ListItemIcon><WhatshotTwoToneIcon /></ListItemIcon>
+            <ListItemText primary="Trending" />
           </ListItem>
-        ))}
+        </Link>
+        <Link href="/schedule">
+          <ListItem button key="Schedule" onClick={() => context.dispatch('CLOSE_NAVBAR')}>
+            <ListItemIcon><ScheduleTwoToneIcon /></ListItemIcon>
+            <ListItemText primary="Schedule" />
+          </ListItem>
+        </Link>
+        <Link href="/top">
+          <ListItem button key="Top" onClick={() => context.dispatch('CLOSE_NAVBAR')}>
+            <ListItemIcon><InsertChartTwoToneIcon /></ListItemIcon>
+            <ListItemText primary="Top" />
+          </ListItem>
+        </Link>
       </List>
 
       <Divider />
@@ -116,7 +124,7 @@ function ResponsiveDrawer(props) {
             container={container}
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={mobileOpen}
+            open={context.state.navbar}
             onClose={handleDrawerToggle}
             classes={{
               paper: classes.drawerPaper,
