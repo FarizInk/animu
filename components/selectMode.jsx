@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText, MenuItem, Menu } from '@material-ui/core';
 import { Context } from 'context/store'
-import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +15,6 @@ export default function SimpleListMenu() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const context = React.useContext(Context)
-  const { enqueueSnackbar } = useSnackbar();
 
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
@@ -30,7 +28,7 @@ export default function SimpleListMenu() {
     if ((mode === 'anime' || mode === 'manga') && oldMode !== mode) {
       context.dispatch('CLOSE_NAVBAR')
       context.dispatch('CHANGE_MODE', { mode: mode, modeIndex: index })
-      enqueueSnackbar('Change Mode to ' + options[index]);
+      // enqueueSnackbar('Change Mode to ' + options[index]);
     }
   };
 

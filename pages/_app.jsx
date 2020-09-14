@@ -3,7 +3,7 @@ import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
 import Head from 'next/head'
 import { Provider } from 'context/store'
 import ResponsiveDrawer from 'components/navbar'
-import { SnackbarProvider } from 'notistack';
+import Snackbar from 'components/snackbar'
 
 const theme = responsiveFontSizes(createMuiTheme())
 
@@ -24,11 +24,10 @@ function MyApp({ Component, pageProps }) {
 
       </Head>
       <Provider>
-        <SnackbarProvider maxSnack={3}>
-          <ResponsiveDrawer>
-            <Component {...pageProps} />
-          </ResponsiveDrawer>
-        </SnackbarProvider>
+        <Snackbar/>
+        <ResponsiveDrawer>
+          <Component {...pageProps} />
+        </ResponsiveDrawer>
       </Provider>
     </>
   )
