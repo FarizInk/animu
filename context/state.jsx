@@ -1,8 +1,7 @@
 export const state = {
     pageTitle: "ANIMU",
     navbar: false,
-    isLoading: true,
-    errorMessage: null,
+    isLoading: false,
     snackbar: false,
     snackpack: [],
     // Mode

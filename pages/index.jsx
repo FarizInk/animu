@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Context } from 'context/store'
 import Header from 'components/header'
 import axios from 'axios'
@@ -9,33 +9,36 @@ import Container from '@material-ui/core/Container';
 const Index = () => {
   const pageTitle = "Trending"
   const context = useContext(Context)
+  const mode = context.state.mode
+  const [data, setData] = useState(null)
 
   const getData = async () => {
-    context.dispatch('SET_LOADING', true)
+    setData(mode === 'anime' ? context.state.trendingAnime : context.state.trendingManga)
+    if (data === null) context.dispatch('SET_LOADING', true)
     context.dispatch('ADD_SNACKPACK', { message: "Getting new information from kitsu.io...", time: 3000 })
-    // console.log(context.state.snacpack);
-    await axios.get(process.env.API_URL_FIRST + 'trending/anime')
+    await axios.get(process.env.API_URL_FIRST + 'trending/' + mode)
       .then((response) => {
-        context.dispatch('CHANGE_TRENDING_ANIME', response.data.data)
+        (mode === 'anime') ? context.dispatch('SET_TRENDING_ANIME', response.data.data) : context.dispatch('SET_TRENDING_MANGA', response.data.data)
+        setData(response.data.data)
         context.dispatch('SET_LOADING', false)
         context.dispatch('ADD_SNACKPACK', { message: "Success get information from kitsu.io!", time: 3000 })
       })
       .catch((err) => {
-        const error = err.response.data.errors[0]
-        console.log(error);
-        context.dispatch('CHANGE_ERROR_MESSAGE', error)
+        const error = err.response
+        console.log(error)
+        context.dispatch('ADD_SNACKPACK', { message: "Some Error!", time: 3000 })
       });
   }
 
   useEffect(() => {
     context.dispatch("CHANGE_PAGE_TITLE", pageTitle)
-    getData()
-  }, []);
+    setTimeout(() => {
+      getData()
+    }, 400);
+  }, [mode]);
 
   const render = () => {
-    if (context.state.isLoading
-      && context.state.trendingAnime === null
-    ) {
+    if (data === null) {
       return (
         <Grid container spacing={3}>
           {
@@ -52,11 +55,17 @@ const Index = () => {
       return (
         <Grid container spacing={3}>
           {
-            context.state.trendingAnime.map((item, index) => (
-              <Grid item xs={12} sm={12} md={6} key={index}>
-                <MyCard position={itteration++} title={item.attributes.canonicalTitle} jpTitle={item.attributes.titles.ja_jp} image={item.attributes.coverImage.small} description={item.attributes.description} />
-              </Grid>
-            ))
+            data.map((item, index) => {
+              let coverImage = null
+              if (item.attributes.coverImage !== null) coverImage = item.attributes.coverImage.small
+              return (
+                <Grid item xs={12} sm={12} md={6} key={index}>
+                  <MyCard position={itteration++} title={item.attributes.canonicalTitle} jpTitle={item.attributes.titles.ja_jp}
+                    image={coverImage}
+                    description={item.attributes.description} />
+                </Grid>
+              )
+            })
           }
         </Grid>
       );

@@ -52,13 +52,19 @@ export const MyCard = (props) => {
           classes={{ subheader: classes.header, title: classes.header }}
         />
 
-        <CardMedia
-          component="img"
-          alt={props.title}
-          height="130"
-          image={props.image}
-          title={props.title}
-        />
+        {(props.image === null) ? (
+          <Skeleton animation="wave" variant="rect" className={classes.media} />
+        ) : (
+            <CardMedia
+              component="img"
+              alt={props.title}
+              height="130"
+              image={props.image}
+              title={props.title}
+              onError={(e)=>{e.target.onerror = null; e.target.src="https://ik.imagekit.io/demo/img/tr:di-medium_cafe_B1iTdD0C.jpg/non_existent_image.jpg"}}
+            />
+          )}
+
         <CardContent>
           <Typography className={classes.description} variant="body2" color="textSecondary" component="p">
             {props.description}
