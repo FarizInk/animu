@@ -12,12 +12,13 @@ const Index = () => {
 
   const getData = async () => {
     context.dispatch('SET_LOADING', true)
+    context.dispatch('ADD_SNACKPACK', { message: "Getting new information from kitsu.io...", time: 3000 })
+    // console.log(context.state.snacpack);
     await axios.get(process.env.API_URL_FIRST + 'trending/anime')
       .then((response) => {
         context.dispatch('CHANGE_TRENDING_ANIME', response.data.data)
         context.dispatch('SET_LOADING', false)
-        context.dispatch('SET_VALUE_SNACKBAR', { message: "Success get information from kitsu.io!", time: 3000 })
-        context.dispatch('SET_SNACKBAR', true)
+        context.dispatch('ADD_SNACKPACK', { message: "Success get information from kitsu.io!", time: 3000 })
       })
       .catch((err) => {
         const error = err.response.data.errors[0]

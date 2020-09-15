@@ -28,7 +28,7 @@ export default function SimpleListMenu() {
     if ((mode === 'anime' || mode === 'manga') && oldMode !== mode) {
       context.dispatch('CLOSE_NAVBAR')
       context.dispatch('CHANGE_MODE', { mode: mode, modeIndex: index })
-      // enqueueSnackbar('Change Mode to ' + options[index]);
+      context.dispatch('ADD_SNACKPACK', { message: 'Change Mode to ' + options[index], time: 3000 })
     }
   };
 

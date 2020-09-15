@@ -4,10 +4,7 @@ export const state = {
     isLoading: true,
     errorMessage: null,
     snackbar: false,
-    snackbar_value: {
-        message: null,
-        time: 9999999
-    },
+    snackpack: [],
     // Mode
     mode: "anime",
     modeIndex: 0,
