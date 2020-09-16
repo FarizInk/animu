@@ -53,7 +53,14 @@ export const MyCard = (props) => {
         />
 
         {(props.image === null) ? (
-          <Skeleton animation="wave" variant="rect" className={classes.media} />
+          <CardMedia
+            component="img"
+            alt={props.title}
+            height="130"
+            image="/no-image.jpg"
+            title={props.title}
+            onError={(e) => { e.target.onerror = null; e.target.src = "/image-not-found.jpg" }}
+          />
         ) : (
             <CardMedia
               component="img"
@@ -61,7 +68,7 @@ export const MyCard = (props) => {
               height="130"
               image={props.image}
               title={props.title}
-              onError={(e)=>{e.target.onerror = null; e.target.src="https://ik.imagekit.io/demo/img/tr:di-medium_cafe_B1iTdD0C.jpg/non_existent_image.jpg"}}
+              onError={(e) => { e.target.onerror = null; e.target.src = "/image-not-found.jpg" }}
             />
           )}
 
