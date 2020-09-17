@@ -2,8 +2,8 @@ import { useContext, useEffect } from 'react';
 import { Context } from 'context/store'
 import Header from 'components/header'
 
-const Home = () => {
-  const pageTitle = "Home"
+const Trending = () => {
+  const pageTitle = "Trending"
   const context = useContext(Context)
 
   useEffect(() => {
@@ -17,4 +17,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Trending

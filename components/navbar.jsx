@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AppBar, CssBaseline, Divider, Drawer, Hidden, IconButton, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography } from '@material-ui/core'
-import { MoveToInbox as InboxIcon, Mail as MailIcon, Menu as MenuIcon, WhatshotTwoTone as WhatshotTwoToneIcon, ScheduleTwoTone as ScheduleTwoToneIcon, InsertChartTwoTone as InsertChartTwoToneIcon } from '@material-ui/icons';
+import { HomeTwoTone as HomeTwoToneIcon, Menu as MenuIcon, WhatshotTwoTone as WhatshotTwoToneIcon, ScheduleTwoTone as ScheduleTwoToneIcon, InsertChartTwoTone as InsertChartTwoToneIcon } from '@material-ui/icons';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Context } from 'context/store'
 import Link from 'next/link'
-import SimpleMenu from 'components/selectMode'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -68,6 +67,12 @@ function ResponsiveDrawer(props) {
 
       <List>
         <Link href="/" >
+          <ListItem button key="Home" onClick={() => context.dispatch('CLOSE_NAVBAR')}>
+            <ListItemIcon><HomeTwoToneIcon /></ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+        </Link>
+        <Link href="/trending/" >
           <ListItem button key="Trending" onClick={() => context.dispatch('CLOSE_NAVBAR')}>
             <ListItemIcon><WhatshotTwoToneIcon /></ListItemIcon>
             <ListItemText primary="Trending" />
@@ -86,11 +91,6 @@ function ResponsiveDrawer(props) {
           </ListItem>
         </Link>
       </List>
-
-      <Divider />
-
-      <SimpleMenu />
-
     </div>
   );
 

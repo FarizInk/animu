@@ -1,12 +1,20 @@
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
 
-const Header = (props) => {
+const changeTitle = (propsTitle) => {
   let title = null
-  if (props.title === null) {
+  if (propsTitle === null) {
     title = process.env.APP_NAME
   } else {
-    title = props.title + " - " + process.env.APP_NAME
+    title = propsTitle + " - " + process.env.APP_NAME
   }
+
+  return title
+}
+
+const Header = (props) => {
+  let propsTitle = props.title
+  let title = changeTitle(propsTitle)
   if (props.description === null) props.description = process.env.APP_DESCRIPTION;
 
   return (
